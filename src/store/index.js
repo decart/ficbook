@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     bookmarks: [],
+    current: undefined,
     is_loading: false
   },
   mutations: {
@@ -18,12 +19,16 @@ export default new Vuex.Store({
       state.bookmarks = bookmarks;
     },
 
-    upsert(state, bookmark) {
-      const filtered = state.bookmarks.filter(
-        b => b.bookId === bookmark.bookId
-      );
+    setCurrent(state, bookmark) {
+      state.current = bookmark;
+    },
 
-      if (filtered !== undefined) {
+    upsert(state, bookmark) {
+      const filtered = state.bookmarks.filter((b) => {
+        return b.bookId == bookmark.bookId;
+      });
+
+      if (filtered.length) {
         filtered[0] = bookmark;
       } else {
         state.bookmarks.push(bookmark);
@@ -37,9 +42,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getBookmarks({ commit }) {
+    getBookmarks({ state, commit }) {
       commit("loading", true);
       api.getBookmarks(bookmarks => {
+        const current = bookmarks.filter((b) => {
+          return b.bookId == state.current.bookId;
+        });
+
+        if (current.length) {
+          commit("setCurrent", current[0]);
+        }
+
         commit("setBookmarks", bookmarks);
         commit("loading", false);
       });
@@ -58,6 +71,10 @@ export default new Vuex.Store({
           state.bookmarks = _oldBookmarks;
           commit("loading", false);
         });
+    },
+
+    setCurrent({ commit }, bookmark) {
+      commit("setCurrent", bookmark);
     }
   },
   modules: {}

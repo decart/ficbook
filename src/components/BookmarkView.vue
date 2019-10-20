@@ -2,7 +2,7 @@
   <div class="bookmark">
     <button @click="removeBookmark(bookmark)"><i class="icon-cross"></i></button>
     <BookmarkIcons :status="bookmark.status" :is_last="bookmark.is_last" />
-    {{ title }}
+    <a :href="`/readfic/${bookmark.bookId}/${bookmark.partId}#${bookmark.hash}`">{{ title }}</a>
     <span class="fandoms">{{ fandoms }}</span>
   </div>
 </template>
@@ -18,11 +18,11 @@ export default {
   props: ["bookmark"],
   computed: {
     title: function() {
-      return this.bookmark.bookTitle.split(" — фанфик по фэндому ")[0];
+      return this.bookmark.bookTitle.split(" — фанфик по фэндому ")[0].trim();
     },
 
     fandoms: function() {
-      return this.bookmark.bookTitle.split(" — фанфик по фэндому ")[1];
+      return this.bookmark.bookTitle.split(" — фанфик по фэндому ")[1].trim();
     }
   },
   methods: {
@@ -47,7 +47,9 @@ export default {
 }
 
 .fandoms {
+  display: inline-block;
+  margin-left: 0.5em;
   color: #666;
-  font-size: 0.8em;
+  font-size: 0.7em;
 }
 </style>

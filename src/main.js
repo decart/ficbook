@@ -5,7 +5,7 @@ import store from "./store";
 Vue.config.productionTip = false;
 
 const app = document.createElement("div");
-app.id = "app";
+app.id = "application";
 document.getElementsByTagName("body")[0].append(app);
 
 new Vue({

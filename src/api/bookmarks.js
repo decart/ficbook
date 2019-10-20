@@ -111,9 +111,34 @@ export default {
         if (Math.random() < 0.5) {
           resolve({ status: "ok" });
         } else {
-          reject({ status: "ok" });
+          reject({ status: "error" });
         }
       }, 3000);
     });
+  },
+
+  makeBookmark() {
+    const $ = window.$;
+    const title = $("title")
+      .text()
+      .replace(/(\r\n|\n|\r)/gm, "")
+      .replace(/ {2,}/gm, " ")
+      .trim();
+    
+    const bookInfo = document.location.href.match(/http.*?\/readfic\/(\d*)\/(\d*)/i);
+    if (!bookInfo) return null;
+
+    const status = $('dt:contains("Статус:")').next("dd").text().trim();
+    const is_last = $("a.btn-next");
+    const part_date = $(".part-date").text().trim();
+
+    return {
+      bookTitle: title,
+      bookId: bookInfo[1],
+      partId: bookInfo[2],
+      status: status,
+      is_last: !!is_last,
+      part_date: part_date
+    };
   }
 };
