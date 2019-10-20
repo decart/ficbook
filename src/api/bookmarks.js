@@ -124,13 +124,20 @@ export default {
       .replace(/(\r\n|\n|\r)/gm, "")
       .replace(/ {2,}/gm, " ")
       .trim();
-    
-    const bookInfo = document.location.href.match(/http.*?\/readfic\/(\d*)\/(\d*)/i);
+
+    const bookInfo = document.location.href.match(
+      /http.*?\/readfic\/(\d*)\/(\d*)/i
+    );
     if (!bookInfo) return null;
 
-    const status = $('dt:contains("Статус:")').next("dd").text().trim();
+    const status = $('dt:contains("Статус:")')
+      .next("dd")
+      .text()
+      .trim();
     const is_last = $("a.btn-next");
-    const part_date = $(".part-date").text().trim();
+    const part_date = $(".part-date")
+      .text()
+      .trim();
 
     return {
       bookTitle: title,

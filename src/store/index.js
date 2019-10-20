@@ -24,7 +24,7 @@ export default new Vuex.Store({
     },
 
     upsert(state, bookmark) {
-      const filtered = state.bookmarks.filter((b) => {
+      const filtered = state.bookmarks.filter(b => {
         return b.bookId == bookmark.bookId;
       });
 
@@ -45,7 +45,7 @@ export default new Vuex.Store({
     getBookmarks({ state, commit }) {
       commit("loading", true);
       api.getBookmarks(bookmarks => {
-        const current = bookmarks.filter((b) => {
+        const current = bookmarks.filter(b => {
           return b.bookId == state.current.bookId;
         });
 
