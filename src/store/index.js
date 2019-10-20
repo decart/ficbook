@@ -28,6 +28,12 @@ export default new Vuex.Store({
       } else {
         state.bookmarks.push(bookmark);
       }
+    },
+
+    remove(state, bookmark) {
+      state.bookmarks = state.bookmarks.filter(
+        b => b.bookId !== bookmark.bookId
+      );
     }
   },
   actions: {
@@ -37,6 +43,21 @@ export default new Vuex.Store({
         commit("setBookmarks", bookmarks);
         commit("loading", false);
       });
+    },
+
+    removeBookmark({ state, commit }, bookmark) {
+      const _oldBookmarks = state.bookmarks;
+      commit("loading", true);
+      commit("remove", bookmark);
+      api
+        .removeBookmark(bookmark)
+        .then(() => {
+          commit("loading", false);
+        })
+        .catch(() => {
+          state.bookmarks = _oldBookmarks;
+          commit("loading", false);
+        });
     }
   },
   modules: {}
