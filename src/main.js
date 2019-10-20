@@ -4,7 +4,11 @@ import store from "./store";
 
 Vue.config.productionTip = false;
 
+const app = document.createElement("div");
+app.id = "app";
+document.getElementsByTagName("body")[0].append(app);
+
 new Vue({
   store,
   render: h => h(App)
-}).$mount("#app");
+}).$mount(app);
