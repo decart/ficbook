@@ -2,8 +2,12 @@
   <div id="bookmarks-wrapper">
     <div id="bookmarks-control-panel">
       <div id="loading-indicator" v-if="is_loading">Loading</div>
-      <button id="bookmarks-list-button" @click="toggle_list">📖</button>
-      <button id="upsert-bookmark-button" :disabled="!is_book_page">📑</button>
+      <button id="bookmarks-list-button" @click="toggle_list">
+        <PanelIcons name="bookmarks_list" />
+      </button>
+      <button id="upsert-bookmark-button" :disabled="!is_book_page">
+        <PanelIcons name="add_bookmark" />
+      </button>
     </div>
     <BookmarksList v-if="list_visible" :bookmarks="bookmarks" />
   </div>
@@ -12,17 +16,18 @@
 <script>
 import { mapState } from "vuex";
 import BookmarksList from "./BookmarksList";
-import api from "../api/bookmarks";
+import PanelIcons from "./PanelIcons";
 
 export default {
   components: {
-    BookmarksList
+    BookmarksList,
+    PanelIcons
   },
+
   data() {
     return {
-      list_visible: false,
-      is_book_page: false
-    }
+      list_visible: false
+    };
   },
 
   methods: {
@@ -31,24 +36,26 @@ export default {
     }
   },
 
-  computed: mapState({
-    bookmarks: state => state.bookmarks,
-    is_loading: state => state.is_loading
-  }),
+  computed: {
+    is_book_page() {
+      return !!document.location.href.match(/http.*?\/readfic\/(\d*)\/(\d*)/i);
+    },
+    ...mapState({
+      bookmarks: state => state.bookmarks,
+      is_loading: state => state.is_loading
+    })
+  },
 
-  created () {
-    const current = api.makeBookmark();
-    this.is_book_page = !!current;
-
-    this.$store.dispatch('setCurrent', current)
-    this.$store.dispatch('getBookmarks')
+  created() {
+    this.$store.dispatch("getBookmarks");
   }
-}
+};
 </script>
 
 <style lang="css">
 #bookmarks-control-panel {
   position: fixed;
+  display: flex;
   top: 2em;
   left: 2em;
   background: #d3be97;
