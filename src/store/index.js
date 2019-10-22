@@ -20,8 +20,20 @@ export default new Vuex.Store({
 
     remove(state, bookmark) {
       state.bookmarks = state.bookmarks.filter(
-        b => b.bookId !== bookmark.bookId
+        b => b.bookId != bookmark.bookId
       );
+    },
+
+    update(state, bookmark) {
+      const idx = state.bookmarks.findIndex(b => b.bookId == bookmark.bookId);
+      const newBookmarks = [...state.bookmarks];
+
+      newBookmarks[idx] = bookmark;
+      state.bookmarks = newBookmarks;
+    },
+
+    add(state, bookmark) {
+      state.bookmarks.push(bookmark);
     }
   },
   actions: {
@@ -48,29 +60,27 @@ export default new Vuex.Store({
         });
     },
 
-    upsertBookmark({ state, commit }, bookmark) {
-      const _oldBookmarks = state.bookmarks;
+    upsertBookmark({ commit }, bookmark) {
       commit("loading", true);
 
       if (typeof bookmark._id === "object") {
         api
           .updateBookmark(bookmark)
           .then(() => {
+            commit("update", bookmark);
             commit("loading", false);
           })
           .catch(() => {
-            state.bookmarks = _oldBookmarks;
             commit("loading", false);
           });
       } else {
         api
           .addBookmark(bookmark)
           .then(() => {
-            state.bookmarks.push(bookmark);
+            commit("add", bookmark);
             commit("loading", false);
           })
           .catch(() => {
-            state.bookmarks = _oldBookmarks;
             commit("loading", false);
           });
       }

@@ -125,7 +125,7 @@ export default {
       });
 
       setTimeout(() => {
-        if (Math.random() < 0.5) {
+        if (Math.random() < 0.9) {
           resolve({ status: "ok" });
         } else {
           reject({ status: "error" });
@@ -145,7 +145,7 @@ export default {
         if (Math.random() < 0.5) {
           resolve({
             _id: { $oid: "5a872e3ec2ef16267cbafb2c" },
-            ...bookmark,
+            ...bookmark
           });
         } else {
           reject({ status: "error" });
