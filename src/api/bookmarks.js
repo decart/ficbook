@@ -117,6 +117,43 @@ export default {
     });
   },
 
+  updateBookmark(bookmark) {
+    return new Promise((resolve, reject) => {
+      // Rest update bookmark
+      _bookmarks.filter(b => {
+        b.bookId === bookmark.bookId;
+      });
+
+      setTimeout(() => {
+        if (Math.random() < 0.5) {
+          resolve({ status: "ok" });
+        } else {
+          reject({ status: "error" });
+        }
+      }, 3000);
+    });
+  },
+
+  addBookmark(bookmark) {
+    return new Promise((resolve, reject) => {
+      // Rest Add bookmark
+      _bookmarks.filter(b => {
+        b.bookId === bookmark.bookId;
+      });
+
+      setTimeout(() => {
+        if (Math.random() < 0.5) {
+          resolve({
+            _id: { $oid: "5a872e3ec2ef16267cbafb2c" },
+            ...bookmark,
+          });
+        } else {
+          reject({ status: "error" });
+        }
+      }, 3000);
+    });
+  },
+
   makeBookmark() {
     const $ = window.$;
     const title = $("title")
@@ -134,7 +171,7 @@ export default {
       .next("dd")
       .text()
       .trim();
-    const is_last = $("a.btn-next");
+    const has_next = $("a.btn-next");
     const part_date = $(".part-date")
       .text()
       .trim();
@@ -144,7 +181,7 @@ export default {
       bookId: bookInfo[1],
       partId: bookInfo[2],
       status: status,
-      is_last: !!is_last,
+      is_last: !has_next,
       part_date: part_date
     };
   }

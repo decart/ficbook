@@ -5,7 +5,12 @@
       <button id="bookmarks-list-button" @click="toggle_list">
         <PanelIcons name="bookmarks_list" />
       </button>
-      <button id="upsert-bookmark-button" :disabled="!is_book_page">
+
+      <a v-if="current" :href="`/readfic/${current.bookId}/${current.partId}#${current.hash}`">
+        <PanelIcons name="goto" />
+      </a>
+
+      <button id="upsert-bookmark-button" v-if="is_book_page" @click="upsert">
         <PanelIcons name="add_bookmark" />
       </button>
     </div>
@@ -17,6 +22,7 @@
 import { mapState } from "vuex";
 import BookmarksList from "./BookmarksList";
 import PanelIcons from "./PanelIcons";
+import api from "../api/bookmarks";
 
 export default {
   components: {
@@ -33,12 +39,28 @@ export default {
   methods: {
     toggle_list() {
       this.list_visible = !this.list_visible;
+    },
+
+    upsert() {
+      const bookmark = {
+        ...this.current,
+        ...api.makeBookmark()
+      };
+
+      this.$store.dispatch("upsertBookmark", bookmark);
     }
   },
 
   computed: {
     is_book_page() {
       return !!document.location.href.match(/http.*?\/readfic\/(\d*)\/(\d*)/i);
+    },
+    book_id() {
+      const bookInfo = document.location.href.match(/http.*?\/readfic\/(\d*)\/?/i);
+      return bookInfo ? bookInfo[1] : undefined;
+    },
+    current() {
+      return this.$store.state.bookmarks.find(b => b.bookId == this.book_id);
     },
     ...mapState({
       bookmarks: state => state.bookmarks,
@@ -58,6 +80,7 @@ export default {
   display: flex;
   top: 2em;
   left: 2em;
+  overflow: hidden;
   background: #d3be97;
   border-radius: 1em;
   box-shadow: 0 0 1em #d3be97;
@@ -75,21 +98,17 @@ export default {
   background: rgba(255, 255, 255, 0.8);
 }
 
-#bookmarks-list-button {
-  border-radius: 1em 0 0 1em;
-}
-
-#upsert-bookmark-button {
-  border-radius: 0 1em 1em 0;
-}
-
-#bookmarks-control-panel button {
+#bookmarks-control-panel button,
+#bookmarks-control-panel a {
   border: none;
   outline: none;
   background: transparent;
+  transition: all .3s ease;
+  padding: 1px 4px;
 }
 
-#bookmarks-control-panel button:hover {
+#bookmarks-control-panel button:hover,
+#bookmarks-control-panel a:hover {
   background: #fff;
 }
 </style>

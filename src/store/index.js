@@ -46,6 +46,34 @@ export default new Vuex.Store({
           state.bookmarks = _oldBookmarks;
           commit("loading", false);
         });
+    },
+
+    upsertBookmark({ state, commit }, bookmark) {
+      const _oldBookmarks = state.bookmarks;
+      commit("loading", true);
+
+      if (typeof bookmark._id === "object") {
+        api
+          .updateBookmark(bookmark)
+          .then(() => {
+            commit("loading", false);
+          })
+          .catch(() => {
+            state.bookmarks = _oldBookmarks;
+            commit("loading", false);
+          });
+      } else {
+        api
+          .addBookmark(bookmark)
+          .then(() => {
+            state.bookmarks.push(bookmark);
+            commit("loading", false);
+          })
+          .catch(() => {
+            state.bookmarks = _oldBookmarks;
+            commit("loading", false);
+          });
+      }
     }
   },
   modules: {}
