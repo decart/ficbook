@@ -9,7 +9,6 @@
 
 <script>
 import BookmarkIcons from "./BookmarkIcons";
-import { mapActions } from 'vuex';
 import { _ } from "../helper";
 
 export default {
@@ -33,9 +32,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      "removeBookmark"
-    ])
+    removeBookmark(bookmark) {
+      if (confirm('Are you shure?')) {
+        this.$store.dispatch("removeBookmark", bookmark);
+      }
+    }
   }
 }
 </script>
