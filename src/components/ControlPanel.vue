@@ -1,7 +1,7 @@
 <template>
   <div id="bookmarks-wrapper">
+    <div id="loading-indicator" v-if="is_loading">Loading</div>
     <div id="bookmarks-control-panel">
-      <div id="loading-indicator" v-if="is_loading">Loading</div>
       <button id="bookmarks-list-button" @click="toggle_list">
         <PanelIcons name="bookmarks_list" />
       </button>
@@ -92,15 +92,15 @@ export default {
 }
 
 #loading-indicator {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  right: 2em;
+  top: 2em;
+  padding: 0 10px;
   text-align: center;
   overflow: hidden;
+  background: #d3be97;
   border-radius: 1em;
-  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 1em #d3be97;
 }
 
 #bookmarks-control-panel button,
