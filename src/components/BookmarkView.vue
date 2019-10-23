@@ -2,7 +2,7 @@
   <div class="bookmark">
     <button @click="removeBookmark(bookmark)"><i class="icon-cross"></i></button>
     <BookmarkIcons :status="bookmark.status" :is_last="bookmark.is_last" />
-    <a :href="`/readfic/${bookmark.bookId}/${bookmark.partId}#${bookmark.hash}`">{{ title }}</a>
+    <a :href="page_link">{{ title }}</a>
     <span class="fandoms">{{ fandoms }}</span>
   </div>
 </template>
@@ -10,6 +10,7 @@
 <script>
 import BookmarkIcons from "./BookmarkIcons";
 import { mapActions } from 'vuex';
+import { _ } from "../helper";
 
 export default {
   components: {
@@ -23,6 +24,12 @@ export default {
 
     fandoms: function() {
       return this.bookmark.bookTitle.split(" — фанфик по фэндому ")[1].trim();
+    },
+
+    page_link() {
+      return "/readfic/" + this.bookmark.bookId + 
+        "/" + this.bookmark.partId + 
+        "#" + _(this.bookmark.hash, "line0");
     }
   },
   methods: {

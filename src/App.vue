@@ -7,6 +7,8 @@
 <script>
 import ControlPanel from "./components/ControlPanel";
 
+require("./bootstrap");
+
 export default {
   name: "app",
   components: {
@@ -20,5 +22,9 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.line-wrapper {
+  min-height: 1em;
 }
 </style>

@@ -6,7 +6,7 @@
         <PanelIcons name="bookmarks_list" />
       </button>
 
-      <a v-if="current" :href="`/readfic/${current.bookId}/${current.partId}#${current.hash}`">
+      <a v-if="current" :href="page_link">
         <PanelIcons name="goto" />
       </a>
 
@@ -14,7 +14,7 @@
         <PanelIcons name="add_bookmark" />
       </button>
     </div>
-    <BookmarksList v-if="list_visible" :bookmarks="bookmarks" />
+    <BookmarksList v-if="list_visible" @close="list_visible = false" :bookmarks="bookmarks" />
   </div>
 </template>
 
@@ -22,7 +22,7 @@
 import { mapState } from "vuex";
 import BookmarksList from "./BookmarksList";
 import PanelIcons from "./PanelIcons";
-import api from "../api/bookmarks";
+import { _, makeBookmark } from "../helper";
 
 export default {
   components: {
@@ -44,7 +44,7 @@ export default {
     upsert() {
       const bookmark = {
         ...this.current,
-        ...api.makeBookmark()
+        ...makeBookmark()
       };
 
       this.$store.dispatch("upsertBookmark", bookmark);
@@ -61,6 +61,11 @@ export default {
     },
     current() {
       return this.$store.state.bookmarks.find(b => b.bookId == this.book_id);
+    },
+    page_link() {
+      return "/readfic/" + this.current.bookId + 
+        "/" + this.current.partId + 
+        "#" + _(this.current.hash, "line0");
     },
     ...mapState({
       bookmarks: state => state.bookmarks,

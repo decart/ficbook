@@ -69,6 +69,7 @@ export default new Vuex.Store({
           .then(() => {
             commit("update", bookmark);
             commit("loading", false);
+            history.pushState(null, null, "#" + bookmark.hash);
           })
           .catch(() => {
             commit("loading", false);
