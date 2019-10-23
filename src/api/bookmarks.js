@@ -15,7 +15,7 @@ import axios from "axios";
 //   }
 // ];
 
-const MLAB_URL = "https://api.mlab.com/api/1/databases/ficbook/collections/bmt/";
+const MLAB_URL = "https://api.mlab.com/api/1/databases/ficbook/collections/bookmarks/";
 const MLAB_KEY = "l2ERBtXn1gCyWyYesGZbyoSSEXD6pm22";
 
 export default {

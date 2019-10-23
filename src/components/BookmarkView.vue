@@ -19,11 +19,11 @@ export default {
   props: ["bookmark"],
   computed: {
     title: function() {
-      return this.bookmark.bookTitle.split(" — фанфик по фэндому ")[0].trim();
+      return this.bookmark.bookTitle.split(" — ")[0].trim();
     },
 
     fandoms: function() {
-      return this.bookmark.bookTitle.split(" — фанфик по фэндому ")[1].trim();
+      return this.bookmark.bookTitle.split(" — ")[1].trim();
     },
 
     page_link() {
