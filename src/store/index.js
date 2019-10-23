@@ -26,10 +26,8 @@ export default new Vuex.Store({
 
     update(state, bookmark) {
       const idx = state.bookmarks.findIndex(b => b.bookId == bookmark.bookId);
-      const newBookmarks = [...state.bookmarks];
-
-      newBookmarks[idx] = bookmark;
-      state.bookmarks = newBookmarks;
+      state.bookmarks.splice(idx, 1);
+      state.bookmarks.push(bookmark);
     },
 
     add(state, bookmark) {
