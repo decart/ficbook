@@ -37,7 +37,8 @@ export default new Vuex.Store({
   actions: {
     getBookmarks({ commit }) {
       commit("loading", true);
-      api.getBookmarks(bookmarks => {
+
+      api.getBookmarks().then(bookmarks => {
         commit("setBookmarks", bookmarks);
         commit("loading", false);
       });
@@ -75,8 +76,8 @@ export default new Vuex.Store({
       } else {
         api
           .addBookmark(bookmark)
-          .then(() => {
-            commit("add", bookmark);
+          .then(data => {
+            commit("add", data);
             commit("loading", false);
           })
           .catch(() => {

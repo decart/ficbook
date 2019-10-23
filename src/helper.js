@@ -24,8 +24,8 @@ const makeBookmark = () => {
 
   return {
     bookTitle: title,
-    bookId: bookInfo[1],
-    partId: bookInfo[2],
+    bookId: parseInt(bookInfo[1]),
+    partId: parseInt(bookInfo[2]),
     status: status,
     is_last: !has_next,
     part_date: part_date,
