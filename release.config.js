@@ -1,6 +1,6 @@
 module.exports = {
   name: "FicBook bookmarks",
-  version: "2.0",
+  version: "2.1",
   author: "mansur",
   description: "Bookmarks system for Ficbook",
   namespace: "https://github.com/decart/ChromePluginsData/raw/master/Scripts/Ficbook.user.js",

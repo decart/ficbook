@@ -17,7 +17,7 @@ const makeBookmark = () => {
     .next("dd")
     .text()
     .trim();
-  const has_next = $("a.btn-next");
+  const has_next = $("a.btn-next")[0] != undefined;
   const part_date = $(".part-date")
     .text()
     .trim();
