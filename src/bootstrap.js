@@ -15,6 +15,7 @@ function prepareContent() {
     let nextLine = matches[i + 1];
     let topPadding = "0.5em";
     let bottomPadding = "0.5em";
+    let lineContent = matches[i][0].trim();
 
     if (prevLine && prevLine[0] == "") {
       topPadding = "0";
@@ -24,8 +25,13 @@ function prepareContent() {
       bottomPadding = "0";
     }
 
+    if (lineContent == "") {
+      bottomPadding = "0";
+      topPadding = "0";
+    }
+
     // eslint-disable-next-line prettier/prettier
-    newContent += `<div id="line${i + 1}" class="line-wrapper" style="padding: ${topPadding} 0 ${bottomPadding} 0;">${matches[i][0]}</div>`;
+    newContent += `<div id="line${i + 1}" class="line-wrapper" style="padding: ${topPadding} 0 ${bottomPadding} 0;">${lineContent}</div>`;
   }
 
   $("#content").html(newContent);
