@@ -5,23 +5,31 @@ if (content) {
   prepareContent();
 }
 
+function clearLine(line) {
+  if (!line) return false;
+  if (Array.isArray(line)) line = line[0];
+  const pureText = line.replace(/(&nbsp;|\s|\n)/gm, "").trim();
+
+  return pureText === "" ? "" : line.trim();
+}
+
 function prepareContent() {
   const re = /^.*$/gm;
   const matches = [...content.matchAll(re)];
   let newContent = "";
 
   for (let i = 0; i < matches.length; i++) {
-    let prevLine = matches[i - 1];
-    let nextLine = matches[i + 1];
+    let prevLine = clearLine(matches[i - 1]);
+    let nextLine = clearLine(matches[i + 1]);
     let topPadding = "0.5em";
     let bottomPadding = "0.5em";
-    let lineContent = matches[i][0].trim();
+    let lineContent = clearLine(matches[i]);
 
-    if (prevLine && prevLine[0] == "") {
+    if (prevLine && prevLine == "") {
       topPadding = "0";
     }
 
-    if (nextLine && nextLine[0] == "") {
+    if (nextLine && nextLine == "") {
       bottomPadding = "0";
     }
 

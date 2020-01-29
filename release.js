@@ -8,7 +8,7 @@ const pices = {
   css: ""
 };
 
-function ensureDirSync (dirpath) {
+function ensureDirSync(dirpath) {
   try {
     fs.mkdirSync(dirpath, { recursive: true })
   } catch (err) {
@@ -64,6 +64,8 @@ ${require.join("\n")}
   output += pices.vendor + "\n\n" + pices.app + "\n\n" + pices.css;
   ensureDirSync("./release");
   fs.writeFileSync("./release/ficbook.user.js", output);
+
+  console.log("Userscript generated!");
 });
 
 scandir.scan({

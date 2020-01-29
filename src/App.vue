@@ -25,6 +25,6 @@ export default {
 }
 
 .line-wrapper {
-  min-height: 1em;
+  min-height: 0.5em;
 }
 </style>
