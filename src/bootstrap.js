@@ -44,13 +44,11 @@ function prepareContent() {
   document.getElementById("content").innerHTML = newContent;
 
   // Scroll to line
-  document.addEventListener("DOMContentLoaded", () => {
-    if (window.location.hash && window.location.hash != "#line0") {
-      scrollTo(window.location.hash);
-    } else {
-      scrollTo(".title-area");
-    }
-  });
+  if (window.location.hash && window.location.hash != "#line0") {
+    scrollTo(window.location.hash);
+  } else {
+    scrollTo(".title-area");
+  }
 
   function scrollTo(selector) {
     setTimeout(() => {
