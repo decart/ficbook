@@ -1,10 +1,9 @@
 const _ = (a, b) => (a ? a : b);
 
 const makeBookmark = () => {
-  const $ = window.$;
-  const title = $("title")
-    .text()
-    .replace(/(\r\n|\n|\r)/gm, "")
+  const title = document
+    .querySelector("title")
+    .innerText.replace(/(\r\n|\n|\r)/gm, "")
     .replace(/ {2,}/gm, " ")
     .trim();
 
@@ -13,14 +12,12 @@ const makeBookmark = () => {
   );
   if (!bookInfo) return null;
 
-  const status = $('dt:contains("Статус:")')
-    .next("dd")
-    .text()
-    .trim();
-  const has_next = $("a.btn-next")[0] != undefined;
-  const part_date = $(".part-date")
-    .text()
-    .trim();
+  const status = document
+    .querySelector(".badge-status-in-progress .badge-text")
+    .innerText.trim();
+
+  const has_next = !!document.querySelector("a.btn-next");
+  const part_date = document.querySelector(".part-date").innerText.trim();
 
   return {
     bookTitle: title,
@@ -35,21 +32,19 @@ const makeBookmark = () => {
 };
 
 function getLineHash() {
-  const $ = window.$;
-  const offset = $(window).scrollTop();
-  let fistVisible = "";
-  let ln = 0;
+  const lines = document.querySelectorAll("#content > .line-wrapper");
+  let hash = "";
 
-  $("#content > .line-wrapper").each(function() {
-    let line = $(this);
-    if (line.offset().top > offset && fistVisible === "") {
-      fistVisible = "line" + ln;
+  for (let line of lines) {
+    const top = line.getBoundingClientRect().top;
+    if (top > 0) {
+      hash = line.id;
+      break;
     }
+  }
 
-    ln++;
-  });
-
-  return fistVisible;
+  console.log("FICBOOK USERSCIPT [LINE HASH]: ", hash);
+  return hash;
 }
 
 export { _, makeBookmark };

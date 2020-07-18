@@ -1,5 +1,4 @@
-const $ = window.jQuery;
-const content = $("#content").html();
+const content = document.getElementById("content").innerHTML;
 
 if (content) {
   prepareContent();
@@ -42,10 +41,10 @@ function prepareContent() {
     newContent += `<div id="line${i + 1}" class="line-wrapper" style="padding: ${topPadding} 0 ${bottomPadding} 0;">${lineContent}</div>`;
   }
 
-  $("#content").html(newContent);
+  document.getElementById("content").innerHTML = newContent;
 
   // Scroll to line
-  $(window).load(() => {
+  document.addEventListener("DOMContentLoaded", () => {
     if (window.location.hash && window.location.hash != "#line0") {
       scrollTo(window.location.hash);
     } else {
@@ -54,11 +53,10 @@ function prepareContent() {
   });
 
   function scrollTo(selector) {
-    $([document.documentElement, document.body]).animate(
-      {
-        scrollTop: $(selector).offset().top
-      },
-      500
-    );
+    setTimeout(() => {
+      console.log("FICBOOK USERSCIPT [SCROLL TO]: ", selector);
+      const elm = document.querySelector(selector);
+      elm.scrollIntoView(true);
+    }, 500);
   }
 }
