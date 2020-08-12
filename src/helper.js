@@ -13,7 +13,9 @@ const makeBookmark = () => {
   if (!bookInfo) return null;
 
   const status = document
-    .querySelector(".badge-status-in-progress .badge-text")
+    .querySelector(
+      ".badge-status-in-progress, .badge-status-finished, .badge-status-frozen"
+    )
     .innerText.trim();
 
   const has_next = !!document.querySelector("a.btn-next");
