@@ -1,4 +1,4 @@
-const content = document.getElementById("content").innerHTML;
+const content = document.getElementById("content")?.innerHTML;
 
 if (content) {
   prepareContent();
