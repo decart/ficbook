@@ -1,8 +1,8 @@
-import axios from "axios";
+import firebase from "firebase";
 
 // const _bookmarks = [
 //   {
-//     _id: { $oid: "5da5849c5d0e65595ef52482" },
+//     _id: "5da5849c5d0e65595ef52482",
 //     bookTitle:
 //       "Рыцарь-неудачник (Матэо) — фанфик по фэндому «Fate/Stay Night», «Fate/Apocrypha», «Fate/stay night: Unlimited Blade Works»",
 //     bookId: 8157529,
@@ -15,29 +15,39 @@ import axios from "axios";
 //   }
 // ];
 
-const MLAB_URL = "https://api.mlab.com/api/1/databases/ficbook/collections/bookmarks/";
-const MLAB_KEY = "l2ERBtXn1gCyWyYesGZbyoSSEXD6pm22";
+firebase.initializeApp({
+  apiKey: process.env.VUE_APP_API_KEY,
+  authDomain: process.env.VUE_APP_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_PROJECT_ID
+});
+
+const db = firebase.firestore();
 
 export default {
-  getBookmarks() {
-    return axios
-      .get(MLAB_URL, { params: { apiKey: MLAB_KEY } })
-      .then(res => res.data);
+  async getBookmarks() {
+    const snapshot = await db.collection("ficbook").get();
+    const res = [];
+    snapshot.forEach(doc => res.push({ ...doc.data(), _id: doc.id }));
+
+    return res;
   },
 
-  removeBookmark(bookmark) {
-    return axios.delete(MLAB_URL + bookmark._id.$oid + "?apiKey=" + MLAB_KEY);
+  async removeBookmark(bookmark) {
+    return await db
+      .collection("ficbook")
+      .doc(bookmark._id)
+      .delete();
   },
 
-  updateBookmark(bookmark) {
-    return axios
-      .post(MLAB_URL + "?apiKey=" + MLAB_KEY, bookmark)
-      .then(res => res.data);
+  async updateBookmark(bookmark) {
+    const id = bookmark._id;
+    const docRef = db.collection("ficbook").doc(id);
+    delete bookmark._id;
+
+    return await docRef.set(bookmark);
   },
 
-  addBookmark(bookmark) {
-    return axios
-      .post(MLAB_URL + "?apiKey=" + MLAB_KEY, bookmark)
-      .then(res => res.data);
+  async addBookmark(bookmark) {
+    return await db.collection("ficbook").add(bookmark);
   }
 };
