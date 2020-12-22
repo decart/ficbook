@@ -1,6 +1,6 @@
 <template>
   <div class="bookmark">
-    <button @click="removeBookmark(bookmark)"><i class="icon-cross"></i></button>
+    <button @click="removeBookmark(bookmark)">&times;</button>
     <BookmarkIcons :status="bookmark.status" :is_last="bookmark.is_last" />
     <a :href="page_link">{{ title }}</a>
     <span class="fandoms">{{ fandoms }}</span>

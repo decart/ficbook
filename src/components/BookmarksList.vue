@@ -1,6 +1,6 @@
 <template>
   <div id="bookmarks-list">
-    <button class="close-list" @click="$emit('close')"><i class="icon-cross"></i></button>
+    <button class="close-list" @click="$emit('close')">&times;</button>
     <div class="list-wrapper">
       <BookmarkView v-for="bookmark in sorted" :key="bookmark.bookId" :bookmark="bookmark" />
     </div>
