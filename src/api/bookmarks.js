@@ -44,7 +44,7 @@ export default {
     const docRef = db.collection("ficbook").doc(id);
     delete bookmark._id;
 
-    return await docRef.set(bookmark);
+    return await docRef.update(bookmark);
   },
 
   async addBookmark(bookmark) {
