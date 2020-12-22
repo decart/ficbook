@@ -40,9 +40,11 @@ export default {
   },
 
   async updateBookmark(bookmark) {
-    const id = bookmark._id;
-    const docRef = db.collection("ficbook").doc(id);
+    const id = bookmark._id.slice();
     delete bookmark._id;
+
+    console.log(id, bookmark);
+    const docRef = db.collection("ficbook").doc(id);
 
     return await docRef.update(bookmark);
   },
