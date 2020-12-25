@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         FicBook bookmarks
 // @namespace    https://github.com/decart/ChromePluginsData/raw/master/Scripts/Ficbook.user.js
-// @version      3.0.3
+// @version      3.0.4
 // @description  Bookmarks system for Ficbook
 // @author       mansur
 // @match        https://ficbook.net/*
