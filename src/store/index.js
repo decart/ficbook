@@ -62,7 +62,7 @@ export default new Vuex.Store({
     upsertBookmark({ commit }, bookmark) {
       commit("loading", true);
 
-      if (typeof bookmark._id === "object") {
+      if (bookmark._id) {
         api
           .updateBookmark(bookmark)
           .then(() => {
